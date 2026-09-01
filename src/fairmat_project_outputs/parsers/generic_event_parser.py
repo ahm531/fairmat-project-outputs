@@ -561,7 +561,8 @@ def _write_child_archive(
     archive: EntryArchive,
     logger: BoundLogger,
 ) -> None:
-    from nomad.datamodel import EntryArchive as EA, EntryMetadata
+    from nomad.datamodel import EntryArchive as EA
+    from nomad.datamodel import EntryMetadata
 
     safe_name = re.sub(r"[^\w\-]", "_", event_name or "event")[:60]
     safe_key = re.sub(r"[^\w]", "_", key)[:30]
@@ -615,7 +616,9 @@ class GenericEventParser(MatchingParser):
         logger: BoundLogger,
         child_archives: dict[str, EntryArchive] = None,
     ) -> None:
-        from fairmat_project_outputs.schema_packages.schema_package import FAIRmatEventsFile
+        from fairmat_project_outputs.schema_packages.schema_package import (
+            FAIRmatEventsFile,
+        )
 
         logger.info("GenericEventParser.parse", mainfile=mainfile)
 

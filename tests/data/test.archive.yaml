@@ -1,3 +1,13 @@
 data:
-  m_def: fairmat_project_outputs.schema_packages.schema_package.NewSchemaPackage
-  name: Markus
+  m_def: fairmat_project_outputs.schema_packages.schema_package.FAIRmatEvent
+  event_name: Test Users Meeting
+  event_type: Meeting
+  contributions:
+    - title: Introduction to FAIRmat
+      contribution_type: Invited talk
+      fairmat_contributors:
+        - Jane Doe
+    - title: FAIR data in practice
+      contribution_type: Contributed talk
+      fairmat_contributors:
+        - John Roe
