@@ -15,6 +15,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # gh-deploy pushes the built site to the gh-pages branch, which the default
+    # read-only GITHUB_TOKEN cannot do.
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
