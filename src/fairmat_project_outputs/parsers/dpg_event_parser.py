@@ -376,7 +376,9 @@ class DPGEventParser(MatchingParser):
         logger: BoundLogger,
         child_archives: dict[str, EntryArchive] = None,
     ) -> None:
-        from fairmat_project_outputs.schema_packages.schema_package import FAIRmatEventsFile
+        from fairmat_project_outputs.schema_packages.schema_package import (
+            FAIRmatEventsFile,
+        )
 
         logger.info("DPGEventParser.parse", mainfile=mainfile)
 

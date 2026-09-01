@@ -39,7 +39,9 @@ users_meetings_parser_entry_point = DPGEventParserEntryPoint(
 
 class GenericEventParserEntryPoint(ParserEntryPoint):
     def load(self):
-        from fairmat_project_outputs.parsers.generic_event_parser import GenericEventParser
+        from fairmat_project_outputs.parsers.generic_event_parser import (
+            GenericEventParser,
+        )
 
         return GenericEventParser(**self.model_dump())
 

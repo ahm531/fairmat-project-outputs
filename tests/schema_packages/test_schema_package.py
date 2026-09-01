@@ -8,4 +8,15 @@ def test_schema_package():
     entry_archive = parse(test_file)[0]
     normalize_all(entry_archive)
 
-    assert entry_archive.data.message == 'Hello Markus!'
+    data = entry_archive.data
+    assert data.event_name == 'Test Users Meeting'
+    assert [c.title for c in data.contributions] == [
+        'Introduction to FAIRmat',
+        'FAIR data in practice',
+    ]
+
+    # normalize() collects the contributors of every contribution onto the event
+    assert data.fairmat_contributors == ['Jane Doe', 'John Roe']
+
+    # ... and renders the overview table
+    assert 'Introduction to FAIRmat' in data.contributions_overview

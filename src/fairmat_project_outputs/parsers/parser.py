@@ -383,14 +383,15 @@ class FAIRmatEventsParser(MatchingParser):
         logger: "BoundLogger",
         child_archives: dict[str, "EntryArchive"] = None,
     ) -> None:
-        from nomad.datamodel import EntryArchive as EA, EntryMetadata
+        from nomad.datamodel import EntryArchive as EA
+        from nomad.datamodel import EntryMetadata
 
         from fairmat_project_outputs.schema_packages.schema_package import (
             Contribution,
             EventRecord,
+            FabioEventOutput,
             FAIRmatEvent,
             FAIRmatEventsFile,
-            FabioEventOutput,
         )
 
         logger.info("FAIRmatEventsParser.parse", mainfile=mainfile)
