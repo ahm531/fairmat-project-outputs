@@ -108,16 +108,6 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["PLC0415"] # import-outside-top-level
-# The parsers predate these checks; the findings are about how the existing
-# functions are structured, not about correctness, so they are silenced here
-# rather than restructuring working parser code.
-"src/fairmat_project_outputs/parsers/parser.py" = [
-    "PLR0912", # too many branches
-    "PLR0915", # too many statements
-]
-"src/fairmat_project_outputs/parsers/dpg_event_parser.py" = [
-    "PLR2004", # magic value used in comparison
-]
 
 # this is entirely optional, you can remove this if you wish to
 [tool.ruff.format]
@@ -140,10 +130,6 @@ package-dir = { "" = "src" }
 where = ["src"]
 
 [project.entry-points.'nomad.plugin']
-parser_entry_point = "fairmat_project_outputs.parsers:parser_entry_point"
-dpg_event_parser_entry_point = "fairmat_project_outputs.parsers:dpg_event_parser_entry_point"
-users_meetings_parser_entry_point = "fairmat_project_outputs.parsers:users_meetings_parser_entry_point"
-generic_event_parser_entry_point = "fairmat_project_outputs.parsers:generic_event_parser_entry_point"
 schema_package_entry_point = "fairmat_project_outputs.schema_packages:schema_package_entry_point"
 normalizer_entry_point = "fairmat_project_outputs.normalizers:normalizer_entry_point"
 app_entry_point = "fairmat_project_outputs.apps:app_entry_point"

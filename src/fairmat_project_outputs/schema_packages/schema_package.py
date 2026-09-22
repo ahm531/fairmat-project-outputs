@@ -26,25 +26,41 @@ m_package = SchemaPackage()
 # Controlled vocabularies
 # ---------------------------------------------------------------------------
 
+# Every term below is spelled exactly as the ontology spells it: the prefix
+# names the ontology, the rest is the class's own rdfs:label. FaBiO labels are
+# lowercase throughout, checked against the current release of
+# http://purl.org/spar/fabio (254 classes).
+#
+# Three terms this list used to carry are not FaBiO classes at all, so they
+# could never resolve to a URI and were counted as nothing:
+#   'Poster'           -> fabio: conference poster
+#   'Software dataset' -> fabio: dataset
+#   'Interview'        -> bibo: Interview, the only published class for the
+#                         genre. FaBiO has no interview; its nearest term,
+#                         'movie', names the medium and loses the meaning.
+#                         BIBO is FaBiO's usual companion -- FaBiO itself uses
+#                         bibo:doi and bibo:status -- so the mix is normal, and
+#                         the prefix keeps it honest about which ontology owns
+#                         the term. Note BIBO capitalises its labels.
 FABIO_TERMS = MEnum(
-    'fabio: Abstract',
-    'fabio: Announcement',
-    'fabio: Book chapter',
-    'fabio: Computer program',
-    'fabio: Conference proceedings',
-    'fabio: Entity metadata',
-    'fabio: Instructional work',
-    'fabio: Interview',
-    'fabio: Journal article',
-    'fabio: Meeting report',
-    'fabio: Periodical issue',
-    'fabio: Poster',
-    'fabio: Preprint',
-    'fabio: Presentation',
-    'fabio: Scholarly work',
-    'fabio: Software dataset',
-    'fabio: Timetable',
-    'fabio: Web page',
+    'fabio: abstract',
+    'fabio: announcement',
+    'fabio: book chapter',
+    'fabio: computer program',
+    'fabio: conference poster',
+    'fabio: conference proceedings',
+    'fabio: dataset',
+    'fabio: entity metadata',
+    'fabio: instructional work',
+    'fabio: journal article',
+    'fabio: meeting report',
+    'fabio: periodical issue',
+    'fabio: preprint',
+    'fabio: presentation',
+    'fabio: scholarly work',
+    'fabio: timetable',
+    'fabio: web page',
+    'bibo: Interview',
 )
 
 EVENT_TYPE = MEnum(
@@ -382,53 +398,6 @@ class FAIRmatEvent(Schema):
                     f'</tr>'
                 )
             self.contributions_overview = header + body + '</tbody></table>'
-
-
-class EventRecord(ArchiveSection):
-    """A single event record used inside FAIRmatEventsFile (parsed from a spreadsheet)."""
-
-    m_def = Section(label_quantity='event_name')
-
-    event_name = Quantity(type=str, label='Event title')
-    start_date = Quantity(type=Datetime, label='Start date')
-    end_date = Quantity(type=Datetime, label='End date')
-    event_type = Quantity(type=EVENT_TYPE, label='Event type')
-    event_series = Quantity(type=EVENT_SERIES, label='Event series')
-    event_interaction_approach = Quantity(
-        type=EVENT_INTERACTION_APPROACH, label='Interaction approach'
-    )
-    event_purpose = Quantity(type=EVENT_PURPOSE, shape=['*'], label='Event purpose')
-    location_name = Quantity(type=str, label='Location name')
-    city = Quantity(type=str, label='City')
-    country = Quantity(type=str, label='Country')
-    mode = Quantity(type=EVENT_MODE, label='Mode')
-    fairmat_role = Quantity(type=FAIRMAT_ROLE, label='FAIRmat primary role')
-    fairmat_contributors = Quantity(type=str, shape=['*'], label='FAIRmat contributors')
-    event_url = Quantity(type=str, label='Event URL', default='https://')
-
-    contributions = SubSection(
-        section_def=Contribution,
-        label='Contributions',
-        repeats=True,
-    )
-
-
-class FAIRmatEventsFile(Schema):
-    """Container schema produced by the events spreadsheet parser."""
-
-    m_def = Section(
-        label='FAIRmat Events File',
-        categories=[UseCaseElnCategory],
-    )
-
-    events = SubSection(
-        section_def=EventRecord,
-        label='Events',
-        repeats=True,
-    )
-
-    def normalize(self, archive: 'EntryArchive', logger: 'BoundLogger') -> None:
-        super().normalize(archive, logger)
 
 
 # ---------------------------------------------------------------------------

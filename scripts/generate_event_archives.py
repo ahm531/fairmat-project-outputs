@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Generate ``FAIRmatEvent`` ``*.archive.json`` files from the events spreadsheet.
 
-This deliberately does **not** add a parser. The plugin's own parsers and schema
-are left untouched; this script runs locally and the resulting archive files are
-uploaded to the oasis, where NOMAD's built-in archive parser turns each one into
-an editable ``FAIRmat Event`` entry.
+Superseded by generate_archives_from_curated.py, which builds the same archives
+from the reviewed curated sheet instead of straight from the spreadsheet. Kept
+for reference until that pipeline has been through a full review cycle.
+
+This runs locally and the resulting archive files are uploaded to the Oasis,
+where NOMAD's built-in archive parser turns each one into an editable
+``FAIRmat Event`` entry.
 
 The event objects are built with the plugin's own schema classes, so every
 controlled vocabulary (event type, series, FAIRmat role, FaBiO class,
@@ -71,10 +74,7 @@ from fairmat_project_outputs.schema_packages.schema_package import (  # noqa: E4
     FAIRmatEvent,
 )
 
-# Filename prefix. The plugin's parsers prefix with their own class
-# ('generic_event_', 'dpg_event_'), which is why every Users_Meetings.csv
-# archive is misleadingly called 'dpg_event_*'. Naming the source instead keeps
-# the origin of an entry visible.
+# Filename prefix. Naming the source keeps the origin of an entry visible.
 FILENAME_PREFIX = 'events_excel'
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -263,16 +263,23 @@ ROLE_MAP: dict[str, str] = {
     'host': 'Organizer',
 }
 
+# Spelled as the ontologies spell them; see FABIO_TERMS in the schema package.
 FABIO_CANONICAL = [
-    'fabio: Abstract', 'fabio: Announcement', 'fabio: Book chapter',
-    'fabio: Computer program', 'fabio: Conference proceedings',
-    'fabio: Entity metadata', 'fabio: Instructional work', 'fabio: Interview',
-    'fabio: Journal article', 'fabio: Meeting report', 'fabio: Periodical issue',
-    'fabio: Poster', 'fabio: Preprint', 'fabio: Presentation',
-    'fabio: Scholarly work', 'fabio: Software dataset', 'fabio: Timetable',
-    'fabio: Web page',
+    'fabio: abstract', 'fabio: announcement', 'fabio: book chapter',
+    'fabio: computer program', 'fabio: conference poster',
+    'fabio: conference proceedings', 'fabio: dataset', 'fabio: entity metadata',
+    'fabio: instructional work', 'fabio: journal article',
+    'fabio: meeting report', 'fabio: periodical issue', 'fabio: preprint',
+    'fabio: presentation', 'fabio: scholarly work', 'fabio: timetable',
+    'fabio: web page', 'bibo: Interview',
 ]
 FABIO_BY_SUFFIX = {v.split(': ', 1)[1].lower(): v for v in FABIO_CANONICAL}
+# The master sheet's spellings from before the vocabulary was checked against
+# the published ontologies.
+FABIO_BY_SUFFIX.update({
+    'poster': 'fabio: conference poster',
+    'software dataset': 'fabio: dataset',
+})
 
 SUB_PREFIX = re.compile(r'^(?:S|Ce|CM|E)_', re.IGNORECASE)
 SKIP_CONTRIBUTORS = {'various', 'n/a', 'na', 'tbd', 'tbc', '-'}
