@@ -400,53 +400,6 @@ class FAIRmatEvent(Schema):
             self.contributions_overview = header + body + '</tbody></table>'
 
 
-class EventRecord(ArchiveSection):
-    """A single event record used inside FAIRmatEventsFile (parsed from a spreadsheet)."""
-
-    m_def = Section(label_quantity='event_name')
-
-    event_name = Quantity(type=str, label='Event title')
-    start_date = Quantity(type=Datetime, label='Start date')
-    end_date = Quantity(type=Datetime, label='End date')
-    event_type = Quantity(type=EVENT_TYPE, label='Event type')
-    event_series = Quantity(type=EVENT_SERIES, label='Event series')
-    event_interaction_approach = Quantity(
-        type=EVENT_INTERACTION_APPROACH, label='Interaction approach'
-    )
-    event_purpose = Quantity(type=EVENT_PURPOSE, shape=['*'], label='Event purpose')
-    location_name = Quantity(type=str, label='Location name')
-    city = Quantity(type=str, label='City')
-    country = Quantity(type=str, label='Country')
-    mode = Quantity(type=EVENT_MODE, label='Mode')
-    fairmat_role = Quantity(type=FAIRMAT_ROLE, label='FAIRmat primary role')
-    fairmat_contributors = Quantity(type=str, shape=['*'], label='FAIRmat contributors')
-    event_url = Quantity(type=str, label='Event URL', default='https://')
-
-    contributions = SubSection(
-        section_def=Contribution,
-        label='Contributions',
-        repeats=True,
-    )
-
-
-class FAIRmatEventsFile(Schema):
-    """Container schema produced by the events spreadsheet parser."""
-
-    m_def = Section(
-        label='FAIRmat Events File',
-        categories=[UseCaseElnCategory],
-    )
-
-    events = SubSection(
-        section_def=EventRecord,
-        label='Events',
-        repeats=True,
-    )
-
-    def normalize(self, archive: 'EntryArchive', logger: 'BoundLogger') -> None:
-        super().normalize(archive, logger)
-
-
 # ---------------------------------------------------------------------------
 # Schema 2 – FAIRmat Project Output
 # ---------------------------------------------------------------------------
