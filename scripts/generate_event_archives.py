@@ -263,16 +263,23 @@ ROLE_MAP: dict[str, str] = {
     'host': 'Organizer',
 }
 
+# Spelled as the ontologies spell them; see FABIO_TERMS in the schema package.
 FABIO_CANONICAL = [
-    'fabio: Abstract', 'fabio: Announcement', 'fabio: Book chapter',
-    'fabio: Computer program', 'fabio: Conference proceedings',
-    'fabio: Entity metadata', 'fabio: Instructional work', 'fabio: Interview',
-    'fabio: Journal article', 'fabio: Meeting report', 'fabio: Periodical issue',
-    'fabio: Poster', 'fabio: Preprint', 'fabio: Presentation',
-    'fabio: Scholarly work', 'fabio: Software dataset', 'fabio: Timetable',
-    'fabio: Web page',
+    'fabio: abstract', 'fabio: announcement', 'fabio: book chapter',
+    'fabio: computer program', 'fabio: conference poster',
+    'fabio: conference proceedings', 'fabio: dataset', 'fabio: entity metadata',
+    'fabio: instructional work', 'fabio: journal article',
+    'fabio: meeting report', 'fabio: periodical issue', 'fabio: preprint',
+    'fabio: presentation', 'fabio: scholarly work', 'fabio: timetable',
+    'fabio: web page', 'bibo: Interview',
 ]
 FABIO_BY_SUFFIX = {v.split(': ', 1)[1].lower(): v for v in FABIO_CANONICAL}
+# The master sheet's spellings from before the vocabulary was checked against
+# the published ontologies.
+FABIO_BY_SUFFIX.update({
+    'poster': 'fabio: conference poster',
+    'software dataset': 'fabio: dataset',
+})
 
 SUB_PREFIX = re.compile(r'^(?:S|Ce|CM|E)_', re.IGNORECASE)
 SKIP_CONTRIBUTORS = {'various', 'n/a', 'na', 'tbd', 'tbc', '-'}

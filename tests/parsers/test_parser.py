@@ -44,9 +44,18 @@ def test_normalise_event_name_expands_skm():
 
 
 def test_fabio_type_accepts_bracketed_and_unspaced_values():
-    assert _normalise_fabio_type('[fabio: Web page]') == 'fabio: Web page'
-    assert _normalise_fabio_type('[fabio:Web page]') == 'fabio: Web page'
+    assert _normalise_fabio_type('[fabio: Web page]') == 'fabio: web page'
+    assert _normalise_fabio_type('[fabio:Web page]') == 'fabio: web page'
     assert _normalise_fabio_type('not a fabio term') is None
+
+
+def test_fabio_type_uses_the_ontology_spelling():
+    # FaBiO labels are lowercase, and three terms the master sheet used are not
+    # FaBiO classes at all.
+    assert _normalise_fabio_type('fabio: Scholarly work') == 'fabio: scholarly work'
+    assert _normalise_fabio_type('fabio: Poster') == 'fabio: conference poster'
+    assert _normalise_fabio_type('fabio: Software dataset') == 'fabio: dataset'
+    assert _normalise_fabio_type('fabio: Interview') == 'bibo: Interview'
 
 
 def test_event_type_falls_back_to_name_keywords():

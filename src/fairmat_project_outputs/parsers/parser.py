@@ -162,17 +162,25 @@ _ROLE_MAP: dict[str, str] = {
 # FaBiO terms (case-insensitive)
 # ---------------------------------------------------------------------------
 
+# Spelled as the ontologies spell them; see FABIO_TERMS in the schema package.
 _FABIO_TERMS_LIST = [
-    "fabio: Abstract", "fabio: Announcement", "fabio: Book chapter",
-    "fabio: Computer program", "fabio: Conference proceedings",
-    "fabio: Entity metadata", "fabio: Instructional work", "fabio: Interview",
-    "fabio: Journal article", "fabio: Meeting report", "fabio: Periodical issue",
-    "fabio: Poster", "fabio: Preprint", "fabio: Presentation",
-    "fabio: Scholarly work", "fabio: Software dataset", "fabio: Timetable",
-    "fabio: Web page",
+    "fabio: abstract", "fabio: announcement", "fabio: book chapter",
+    "fabio: computer program", "fabio: conference poster",
+    "fabio: conference proceedings", "fabio: dataset", "fabio: entity metadata",
+    "fabio: instructional work", "fabio: journal article",
+    "fabio: meeting report", "fabio: periodical issue", "fabio: preprint",
+    "fabio: presentation", "fabio: scholarly work", "fabio: timetable",
+    "fabio: web page", "bibo: Interview",
 ]
 _FABIO_MAP: dict[str, str] = {v.lower(): v for v in _FABIO_TERMS_LIST}
-_FABIO_RE = re.compile(r"\[?(fabio:\s*[^\]]+)\]?", re.IGNORECASE)
+# Spellings the master sheet used before the vocabulary was checked against
+# the published ontologies.
+_FABIO_MAP.update({
+    "fabio: poster": "fabio: conference poster",
+    "fabio: software dataset": "fabio: dataset",
+    "fabio: interview": "bibo: Interview",
+})
+_FABIO_RE = re.compile(r"\[?((?:fabio|bibo):\s*[^\]]+)\]?", re.IGNORECASE)
 
 # ---------------------------------------------------------------------------
 # Utilities

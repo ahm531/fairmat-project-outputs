@@ -301,25 +301,31 @@ def _normalise_fairmat_role(raw: str) -> str | None:
 # FaBiO type normalisation
 # ---------------------------------------------------------------------------
 
+# Spelled as the ontologies spell them; see FABIO_TERMS in the schema package.
+# The last three keys are the master sheet's old spellings, kept so existing
+# files keep parsing.
 _VALID_FABIO_LOWER: dict[str, str] = {
-    "fabio: abstract": "fabio: Abstract",
-    "fabio: announcement": "fabio: Announcement",
-    "fabio: book chapter": "fabio: Book chapter",
-    "fabio: computer program": "fabio: Computer program",
-    "fabio: conference proceedings": "fabio: Conference proceedings",
-    "fabio: entity metadata": "fabio: Entity metadata",
-    "fabio: instructional work": "fabio: Instructional work",
-    "fabio: interview": "fabio: Interview",
-    "fabio: journal article": "fabio: Journal article",
-    "fabio: meeting report": "fabio: Meeting report",
-    "fabio: periodical issue": "fabio: Periodical issue",
-    "fabio: poster": "fabio: Poster",
-    "fabio: preprint": "fabio: Preprint",
-    "fabio: presentation": "fabio: Presentation",
-    "fabio: scholarly work": "fabio: Scholarly work",
-    "fabio: software dataset": "fabio: Software dataset",
-    "fabio: timetable": "fabio: Timetable",
-    "fabio: web page": "fabio: Web page",
+    "fabio: abstract": "fabio: abstract",
+    "fabio: announcement": "fabio: announcement",
+    "fabio: book chapter": "fabio: book chapter",
+    "fabio: computer program": "fabio: computer program",
+    "fabio: conference poster": "fabio: conference poster",
+    "fabio: conference proceedings": "fabio: conference proceedings",
+    "fabio: dataset": "fabio: dataset",
+    "fabio: entity metadata": "fabio: entity metadata",
+    "fabio: instructional work": "fabio: instructional work",
+    "fabio: journal article": "fabio: journal article",
+    "fabio: meeting report": "fabio: meeting report",
+    "fabio: periodical issue": "fabio: periodical issue",
+    "fabio: preprint": "fabio: preprint",
+    "fabio: presentation": "fabio: presentation",
+    "fabio: scholarly work": "fabio: scholarly work",
+    "fabio: timetable": "fabio: timetable",
+    "fabio: web page": "fabio: web page",
+    "bibo: interview": "bibo: Interview",
+    "fabio: poster": "fabio: conference poster",
+    "fabio: software dataset": "fabio: dataset",
+    "fabio: interview": "bibo: Interview",
 }
 
 
@@ -328,14 +334,16 @@ def _normalise_fabio_type(raw: str) -> str | None:
         return None
     # Strip surrounding brackets: [fabio: Web page] → fabio: Web page
     clean = re.sub(r"^\[|\]$", "", raw.strip())
-    # Also handle missing space: "fabio:Web page" → "fabio: Web page"
-    clean = re.sub(r"(?i)^fabio:\s*", "fabio: ", clean).strip()
+    # Also handle missing space: "fabio:Web page" → "fabio: Web page".
+    # Case is settled by the lookup below, which returns the ontology's own
+    # spelling: all of these end up as "fabio: web page".
+    clean = re.sub(r"(?i)^(fabio|bibo):\s*", r"\1: ", clean).strip()
     lower = clean.lower()
     if lower in _VALID_FABIO_LOWER:
         return _VALID_FABIO_LOWER[lower]
     # Partial suffix match
     for key, val in _VALID_FABIO_LOWER.items():
-        suffix = key.replace("fabio: ", "")
+        suffix = key.split(": ", 1)[1]
         if suffix == lower or suffix in lower:
             return val
     return None

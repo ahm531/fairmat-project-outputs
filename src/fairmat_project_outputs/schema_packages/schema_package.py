@@ -26,25 +26,41 @@ m_package = SchemaPackage()
 # Controlled vocabularies
 # ---------------------------------------------------------------------------
 
+# Every term below is spelled exactly as the ontology spells it: the prefix
+# names the ontology, the rest is the class's own rdfs:label. FaBiO labels are
+# lowercase throughout, checked against the current release of
+# http://purl.org/spar/fabio (254 classes).
+#
+# Three terms this list used to carry are not FaBiO classes at all, so they
+# could never resolve to a URI and were counted as nothing:
+#   'Poster'           -> fabio: conference poster
+#   'Software dataset' -> fabio: dataset
+#   'Interview'        -> bibo: Interview, the only published class for the
+#                         genre. FaBiO has no interview; its nearest term,
+#                         'movie', names the medium and loses the meaning.
+#                         BIBO is FaBiO's usual companion -- FaBiO itself uses
+#                         bibo:doi and bibo:status -- so the mix is normal, and
+#                         the prefix keeps it honest about which ontology owns
+#                         the term. Note BIBO capitalises its labels.
 FABIO_TERMS = MEnum(
-    'fabio: Abstract',
-    'fabio: Announcement',
-    'fabio: Book chapter',
-    'fabio: Computer program',
-    'fabio: Conference proceedings',
-    'fabio: Entity metadata',
-    'fabio: Instructional work',
-    'fabio: Interview',
-    'fabio: Journal article',
-    'fabio: Meeting report',
-    'fabio: Periodical issue',
-    'fabio: Poster',
-    'fabio: Preprint',
-    'fabio: Presentation',
-    'fabio: Scholarly work',
-    'fabio: Software dataset',
-    'fabio: Timetable',
-    'fabio: Web page',
+    'fabio: abstract',
+    'fabio: announcement',
+    'fabio: book chapter',
+    'fabio: computer program',
+    'fabio: conference poster',
+    'fabio: conference proceedings',
+    'fabio: dataset',
+    'fabio: entity metadata',
+    'fabio: instructional work',
+    'fabio: journal article',
+    'fabio: meeting report',
+    'fabio: periodical issue',
+    'fabio: preprint',
+    'fabio: presentation',
+    'fabio: scholarly work',
+    'fabio: timetable',
+    'fabio: web page',
+    'bibo: Interview',
 )
 
 EVENT_TYPE = MEnum(

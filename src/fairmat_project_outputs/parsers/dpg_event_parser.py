@@ -34,27 +34,28 @@ _EXTRA_START_COL = 4  # columns from here onward are scanned for FaBiO term / UR
 
 # Contribution type → FaBiO term (used when no explicit FaBiO column value)
 _CTYPE_TO_FABIO: dict[str, str] = {
-    "Contributed talk": "fabio: Presentation",
-    "Invited talk": "fabio: Presentation",
-    "Plenary talk": "fabio: Presentation",
-    "Poster": "fabio: Poster",
-    "Tutorial": "fabio: Instructional work",
-    "Information booth": "fabio: Announcement",
-    "Panel discussion": "fabio: Meeting report",
-    "Workshop session": "fabio: Meeting report",
-    "Conference session": "fabio: Meeting report",
-    "Symposium": "fabio: Conference proceedings",
+    "Contributed talk": "fabio: presentation",
+    "Invited talk": "fabio: presentation",
+    "Plenary talk": "fabio: presentation",
+    "Poster": "fabio: conference poster",
+    "Tutorial": "fabio: instructional work",
+    "Information booth": "fabio: announcement",
+    "Panel discussion": "fabio: meeting report",
+    "Workshop session": "fabio: meeting report",
+    "Conference session": "fabio: meeting report",
+    "Symposium": "fabio: conference proceedings",
 }
 
-# Valid FaBiO enum values (lower-cased for case-insensitive matching)
+# Valid enum values, lower-cased for case-insensitive matching. Spelled as the
+# ontologies spell them; see FABIO_TERMS in the schema package.
 _VALID_FABIO: set[str] = {
     "fabio: abstract", "fabio: announcement", "fabio: book chapter",
-    "fabio: computer program", "fabio: conference proceedings",
-    "fabio: entity metadata", "fabio: instructional work", "fabio: interview",
-    "fabio: journal article", "fabio: meeting report", "fabio: periodical issue",
-    "fabio: poster", "fabio: preprint", "fabio: presentation",
-    "fabio: scholarly work", "fabio: software dataset", "fabio: timetable",
-    "fabio: web page",
+    "fabio: computer program", "fabio: conference poster",
+    "fabio: conference proceedings", "fabio: dataset", "fabio: entity metadata",
+    "fabio: instructional work", "fabio: journal article",
+    "fabio: meeting report", "fabio: periodical issue", "fabio: preprint",
+    "fabio: presentation", "fabio: scholarly work", "fabio: timetable",
+    "fabio: web page", "bibo: interview",
 }
 
 # ---------------------------------------------------------------------------
